@@ -17,30 +17,44 @@ namespace ServerApp
             {
                 string command = Console.ReadLine();
                 string response = string.Empty;
-                switch (command)
+                if (command.StartsWith("msg "))
                 {
-                    case "shutdown":
-                        return;
-                    case "commands":
-                        response = "commands: " +
-                            "\n\tcommands: \n\t\tshows a list of commands to execute" +
-                            "\n\tclear: \n\t\tclears the console" +
-                            "\n\tget time: \n\t\tgets the server time " +
-                            "\n\tget active clients: \n\t\tshows a list of currently active clients" +
-                            "\n\tshutdown: \n\t\tshuts down the server ";
-                        break;
-                    case "clear":
-                        Console.Clear();
-                        break;
-                    case "get time":
-                        response = DateTime.Now.ToLongTimeString();
-                        break;
-                    case "get active clients":
-                        response = String.Format("Current active clients: {0}\n\t{1}", Server.ActiveClients.Length, String.Join(", ",Server.ActiveClients));
-                        break;
-                    default:
-                        response = "Invalid command, type \"commands\" to see a list of commands to execute";
-                        break;
+                    int BeforeUsername = command.IndexOf('<');
+                    int AfterUsername = command.IndexOf('>');
+                    int BeforeMessage = command.IndexOf('<', AfterUsername);
+                    int AfterMessage = command.IndexOf('>', BeforeMessage);
+                    string Username = command.Substring(BeforeUsername + 1, AfterUsername - BeforeUsername - 1);
+                    string Message = command.Substring(BeforeMessage + 1, AfterMessage - BeforeMessage - 1);
+                    Server.SendMsgTo(Username, Message);
+                }
+                else
+                {
+                    switch (command)
+                    {
+                        case "shutdown":
+                            return;
+                        case "commands":
+                            response = "commands: " +
+                                "\n\tcommands: \n\t\tshows a list of commands to execute" +
+                                "\n\tclear: \n\t\tclears the console" +
+                                "\n\tget time: \n\t\tgets the server time " +
+                                "\n\tget active clients: \n\t\tshows a list of currently active clients" +
+                                "\n\tmsg <user> <message>: \n\t\tsends a message to the specified user" +
+                                "\n\tshutdown: \n\t\tshuts down the server ";
+                            break;
+                        case "clear":
+                            Console.Clear();
+                            break;
+                        case "get time":
+                            response = DateTime.Now.ToLongTimeString();
+                            break;
+                        case "get active clients":
+                            response = String.Format("Current active clients: {0}\n\t{1}", Server.ActiveClients.Length, String.Join(", ", Server.ActiveClients));
+                            break;
+                        default:
+                            response = "Invalid command, type \"commands\" to see a list of commands to execute";
+                            break;
+                    }
                 }
                 Console.WriteLine(response);
             }

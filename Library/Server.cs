@@ -53,7 +53,13 @@ namespace Library
             Console.WriteLine("Press any key to continue..");
             Console.ReadKey();
         }
-
+        public void SendMsgTo(string username, string msg)
+        {
+            IdentifiableSocket IS = ClientSockets.Where(CS => CS.Name == username).Single();
+            byte[] data = Encoding.ASCII.GetBytes(msg);
+            IS.Socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), IS);
+            IS.Socket.BeginReceive(Buffer, 0, Buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), IS);
+        }
         #region Callbacks
         private void AcceptCallback(IAsyncResult AsyncResult)
         {
