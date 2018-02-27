@@ -52,6 +52,20 @@ namespace Library
                 throw ex;
             }
         }
+        public void ReceiveLoop()
+        {
+            while (true)
+            {
+                ReceiveResponse();
+            }
+        }
+        public void SendLoop()
+        {
+            while (true)
+            {
+                SendRequest();
+            }
+        }
         public void RequestAndReceiveLoop()
         {
             Console.WriteLine("\n<Type \"commands\" to see a list of commands>");
@@ -63,7 +77,7 @@ namespace Library
         }
         public void SendRequest()
         {
-            Console.Write("Enter a request: ");
+            Console.WriteLine("Enter a request: ");
             string request = Console.ReadLine();
             SendString(request);
             if (request.ToLower() == "exit")
@@ -81,7 +95,7 @@ namespace Library
             string text = Encoding.ASCII.GetString(Data);
             if (text == "Client identified")
             {
-                Console.Write("Client is identified");
+                Console.WriteLine("Client is identified");
             }
             else
             {

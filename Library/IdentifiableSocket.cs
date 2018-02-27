@@ -11,7 +11,7 @@ namespace Library
         protected const int PORT = 100;
         protected readonly byte[] Buffer = new byte[BUFFER_SIZE];
         public string Name { get; private set; }
-        public bool IsIdentifiable
+        public bool IsIdentifiableByName
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Library
             }
         }
         public Socket Socket { get; private set; }
-        
+
         public IdentifiableSocket(Socket socket)
         {
             Socket = socket;

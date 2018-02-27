@@ -78,7 +78,7 @@ namespace Library
             Array.Copy(Buffer, DataBuffer, received);
             string text = Encoding.ASCII.GetString(DataBuffer);
             string response = string.Empty;
-            if (!IdentifiableSocket.IsIdentifiable)
+            if (!IdentifiableSocket.IsIdentifiableByName)
             {
                 IdentifiableSocket.SetName(text);
                 Console.WriteLine("Client identified as {0}", text);

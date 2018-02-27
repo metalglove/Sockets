@@ -6,9 +6,7 @@ namespace ServerApp
 {
     public class Program
     {
-        private static Server Server = 
-            new Server(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp), 
-                "Server");
+        private static Server Server = new Server(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp), "Server");
 
         public static void Main(string[] args)
         {
@@ -17,7 +15,7 @@ namespace ServerApp
             {
                 string command = Console.ReadLine();
                 string response = string.Empty;
-                if (command.StartsWith("msg "))
+                if (command.StartsWith("msg ") || command.StartsWith("Msg "))
                 {
                     int BeforeUsername = command.IndexOf('<');
                     int AfterUsername = command.IndexOf('>');
@@ -26,6 +24,7 @@ namespace ServerApp
                     string Username = command.Substring(BeforeUsername + 1, AfterUsername - BeforeUsername - 1);
                     string Message = command.Substring(BeforeMessage + 1, AfterMessage - BeforeMessage - 1);
                     Server.SendMsgTo(Username, Message);
+                    response = string.Format("Message sent to {0}", Username);
                 }
                 else
                 {
